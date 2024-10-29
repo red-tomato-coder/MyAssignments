@@ -1,16 +1,22 @@
-#ifdef LINLISTS_H
-#define LINLISTS_H
+#ifndef LISTS_H
+#define LISTS_H
 
-struct Node
-{
-datatype key;
-Node* next;
-Node* previous; //у випадку двозв’язного списку
+// Use 'int' or another type for datatype if unspecified
+typedef int datatype;
+
+struct Node {
+    datatype key;
+    Node* next;
+    Node* previous; // Only relevant for doubly linked lists
 };
-Node *head, *temp, *front, *rear;
 
+// Function prototypes
 void push(Node*& head, datatype key);
 void pop(Node*& head);
-void show(Node*& head);
+void show(Node* head);
+void clear(Node*& head);
+void enqueue(Node*& head, datatype key);
+void enqueue(Node*& head);
 
 #endif
+
