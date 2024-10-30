@@ -15,8 +15,8 @@ void push(Node*& head, datatype key);
 void pop(Node*& head);
 void show(Node* head);
 void clear(Node*& head);
-void enqueue(Node*& head, datatype key);
-void enqueue(Node*& head);
+void enqueue(Node*& front, Node*& rear, datatype key);
+void enqueue(Node*& front, Node*& rear);
 
 #endif
 

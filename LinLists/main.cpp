@@ -44,12 +44,12 @@ void First(){
 }
 
 void Second(){
-	int choice;
+int choice;
     	datatype value;
 
     	while (true) {
         	cout << "\nMENU:\n"
-             	<< "1. ENQUEUE\n"
+             	<< "1. INQUEUE\n"
              	<< "2. DEQUEUE\n"
              	<< "3. SHOW\n"
              	<< "4. EXIT\n"
@@ -60,11 +60,11 @@ void Second(){
             case 1:
                 cout << "Enter a value to enqueue: ";
                 cin >> value;
-                enqueue(head, value);
+                enqueue(front, rear, value);
                 break;
 
             case 2:
-                enqueue(head);
+                dequeue(front, rear);
                 break;
 
             case 3:
@@ -73,6 +73,7 @@ void Second(){
 
             case 4:
                 cout << "Exiting...\n" << endl;
+		clear(head);
                 return;
 
             default:
@@ -91,7 +92,6 @@ void menu() {
 		case 1:
 			First();
 			break;
-		case
 		default:
 			cout<<"Wrong option!";
 			menu();
