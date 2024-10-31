@@ -3,6 +3,8 @@
 using namespace std;
 
 Node* head = nullptr; // Initialize head to nullptr
+Node* front = nullptr;  // Initialize front pointer for queue
+Node* rear = nullptr;
 
 void First(){
 	int choice;
@@ -68,7 +70,7 @@ int choice;
                 break;
 
             case 3:
-                show(head);
+                show2(head);
                 break;
 
             case 4:
@@ -83,6 +85,57 @@ int choice;
 	
 }
 
+void Third(){
+	int choice;
+	datatype key;
+	
+	while(true){
+	cout << "MENU:\n"
+	<< "1. Add begin\n"
+	<< "2. Add end\n"
+	<< "3. Delete begin\n"
+	<< "4. Delete end\n"
+	<< "5. Search\n"
+	<< "6. Add an element after found element\n"
+	<< "7. Delete found element\n"
+	<< "8. Show\n"
+	<< "Type choice: ";
+
+	cin >> choice;
+
+	switch(choice){
+		case 1:
+			cout << "Type an added element: ";
+			cin >> key;
+			cout << endl;
+			push(head, key);
+			break;
+		case 2:
+			cout << "Type an added element: ";
+			cin >> key;
+			cout << endl;
+			enqueue(front, rear, key);
+			break;
+		case 3:
+			dequeue(front, rear);
+			break;
+		case 4:
+			pop(head);
+			break;
+		case 5:
+			search(head, rear, key);
+			break;
+		case 6:
+			break;
+		case 7:
+			break;
+		case 8:
+			show(head);
+			break;
+
+	}}
+}
+
 void menu() {
 	while(true){
 	int menuchoice;
@@ -91,6 +144,12 @@ void menu() {
 	switch(menuchoice){
 		case 1:
 			First();
+			break;
+		case 2:
+			Second();
+			break;
+		case 3:
+			Third();
 			break;
 		default:
 			cout<<"Wrong option!";
