@@ -19,6 +19,8 @@ void clear(Node*& head);
 void enqueue(Node*& front, Node*& rear, datatype key);
 void dequeue(Node*& front, Node*& rear);
 void search(Node* head, Node* rear, datatype key);
+void add_mid(Node* head, Node* rear, datatype key);
+void del_mid(Node* head, Node*& rear, datatype key);
 
 
 #endif

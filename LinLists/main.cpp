@@ -109,6 +109,7 @@ void Third(){
 			cin >> key;
 			cout << endl;
 			push(head, key);
+			if (rear == nullptr) rear = head;
 			break;
 		case 2:
 			cout << "Type an added element: ";
@@ -121,13 +122,26 @@ void Third(){
 			break;
 		case 4:
 			pop(head);
+			if (head == nullptr) rear = nullptr;
+			cout << endl;
 			break;
 		case 5:
+			cout << "Type element to search: ";
+			cin >> key;
+			cout << endl;
 			search(head, rear, key);
 			break;
 		case 6:
+			cout << "Type element after which needed to be placed a number: ";
+			cin >> key;
+			cout << endl;
+			add_mid(head, rear, key);
 			break;
 		case 7:
+			cout << "Type element which should be deleted: ";
+			cin >> key;
+			cout << endl;
+			del_mid(head, rear, key);
 			break;
 		case 8:
 			show(head);

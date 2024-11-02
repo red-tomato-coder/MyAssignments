@@ -104,7 +104,7 @@ void search(Node* head, Node* rear, datatype key) {
         if (current->key == key) {  // Check if the current node has the desired key
             found = true;
             cout << "Your searched element is in the position of " << i << endl;
-            break;
+	    break;
         }
         current = current->next;  // Move to the next node
         i++;  // Increment the position counter
@@ -112,6 +112,54 @@ void search(Node* head, Node* rear, datatype key) {
 
     if (!found) {
         cout << "Your searched element has not been found" << endl;
+    }
+}
+
+void add_mid(Node* head, Node* rear, datatype key) {
+	int new_key;
+	cout << "Print a wanted value: ";
+	cin >> new_key;
+	cout << endl;
+	Node* current = head;
+    
+    // Search for the node with the given key
+    while (current != nullptr && current->key != key) {
+        current = current->next;
+    }
+    
+    // If the node with the key is found
+    if (current != nullptr) {
+        Node* newNode = new Node{new_key, current->next}; // Create new node
+        current->next = newNode; // Insert new node after the current node
+        
+        if (current == rear) { // Update rear if we added at the end
+            rear = newNode;
+        }
+    } else {
+        cout << "The specified element was not found in the list." << endl;
+    }
+}
+
+void del_mid(Node* head, Node*& rear, datatype key) {
+    Node* current = head;
+    
+    // Search for the node with the given key
+    while (current != nullptr && current->key != key) {
+        current = current->next;
+    }
+    
+    // If the node with the key is found and it has a next node to delete
+    if (current != nullptr && current->next != nullptr) {
+        Node* temp = current->next; // Node to delete
+        current->next = temp->next; // Skip the node to delete
+        
+        if (temp == rear) { // Update rear if we deleted the last node
+            rear = current;
+        }
+        
+        delete temp;
+    } else {
+        cout << "The specified element was not found or has no next element to delete." << endl;
     }
 }
 
