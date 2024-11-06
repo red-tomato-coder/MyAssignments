@@ -121,8 +121,7 @@ void Third(){
 			dequeue(front, rear);
 			break;
 		case 4:
-			pop(head);
-			if (head == nullptr) rear = nullptr;
+			pop(rear);
 			cout << endl;
 			break;
 		case 5:
