@@ -3,19 +3,32 @@
 using namespace std;
 
 // Push: Add element to the top of the stack
-void push(Node*& head, datatype key) {
-    Node* newNode = new Node{key, head, nullptr}; // Create new node
-    head = newNode; // Set new node as head
+void push(Node*& head, Node*& rear, datatype key) {
+      Node* newNode = new Node{key, head, nullptr};
+          if (head != nullptr) {
+                    head->prev = newNode;
+                        } else {
+                                  rear = newNode; // If list was empty, rear is also the new node
+                                                  //     }
+                                                  //         head = newNode;
+                                                  //         }
+                        }
+          }
 }
 
 // Pop: Remove element from the top of the stack
-void pop(Node*& head) {
+void pop(Node*& head, Node*& rear) {
     if (head == nullptr) {
-        cout << "The stack is empty, nothing to pop out" << endl;
+        cout << "The list is empty, nothing to pop out" << endl;
         return;
     }
     Node* temp = head;
     head = head->next;
+    if (head != nullptr) {
+        head->prev = nullptr;
+    } else {
+        rear = nullptr; // List is now empty
+    }
     delete temp;
 }
 
@@ -63,13 +76,12 @@ void clear(Node*& head) {
 }
 
 void enqueue(Node*& head, Node*& rear, datatype key) {
-    Node* newNode = new Node{key, nullptr};  // Step 1: Create new node
-
-    if (rear == nullptr) {  // Step 2: If the queue is empty
-        head = rear = newNode;  // Both front and rear point to the new node
-    } else {  // Step 3: Add new node at the rear
-        rear->next = newNode;  // Link current rear to new node
-        rear = newNode;  // Update rear to point to new node
+    Node* newNode = new Node{key, nullptr, rear};
+    if (rear == nullptr) {
+        head = rear = newNode;
+    } else {
+        rear->next = newNode;
+        rear = newNode;
     }
 }
 
@@ -90,97 +102,66 @@ void dequeue(Node*& front, Node*& rear) {
     delete temp;  // Delete the old front node
 }
 
-void search(Node* head, Node* rear, datatype key) {
-    if (head == nullptr) {
-        cout << "No data in linked list\n";
-        return;
-    }
-
-    Node* current = head;  // Use a traversal pointer
-    int i = 0;
-    bool found = false;
-
-    while (current != nullptr) {
-        if (current->key == key) {  // Check if the current node has the desired key
-            found = true;
-            cout << "Your searched element is in the position of " << i << endl;
-	    break;
-        }
-        current = current->next;  // Move to the next node
-        i++;  // Increment the position counter
-    }
-
-    if (!found) {
-        cout << "Your searched element has not been found" << endl;
-    }
+void search(Node* head, datatype key) {
+      Node* current = head;
+          int position = 0;
+              while (current != nullptr) {
+                        if (current->key == key) {
+                                      cout << "Element found at position: " << position << endl;
+                                                  return;
+                                                          }
+                                current = current->next;
+                                        position++;
+                                            }
+                  cout << "Element not found." << endl;
+}
+                        }
+              }
 }
 
-void add_mid(Node* head, Node* rear, datatype key) {
-	int new_key;
-	cout << "Print a wanted value: ";
-	cin >> new_key;
-	cout << endl;
-	Node* current = head;
-    
-    // Search for the node with the given key
+void add_mid(Node*& head, Node*& rear, datatype key) {
+    datatype new_key;
+    cout << "Enter the new value to insert: ";
+    cin >> new_key;
+    Node* current = head;
     while (current != nullptr && current->key != key) {
         current = current->next;
     }
-    
-    // If the node with the key is found
     if (current != nullptr) {
-        Node* newNode = new Node{new_key, current->next}; // Create new node
-        current = newNode; // Insert new node after the current node
-        
-        if (current == rear) { // Update rear if we added at the end
-            rear = newNode;
+        Node* newNode = new Node{new_key, current->next, current};
+        if (current->next != nullptr) {
+            current->next->prev = newNode;
+        } else {
+            rear = newNode; // Update rear if added at the end
         }
+        current->next = newNode;
     } else {
-        cout << "The specified element was not found in the list." << endl;
+        cout << "Element not found." << endl;
     }
 }
 
 void del_mid(Node*& head, Node*& rear, datatype key) {
-    // If the list is empty
     if (head == nullptr) {
         cout << "The list is empty." << endl;
         return;
     }
-
-    // If the node to delete is the head
-    if (head->key == key) {
-        Node* temp = head;
-        head = head->next;  // Move head to the next node
-
-        // Update rear if the list is now empty
-        if (head == nullptr) {
-            rear = nullptr;
-        }
-
-        delete temp;
-        return;
-    }
-
-    // Search for the node with the given key
-    Node* prev = nullptr;
     Node* current = head;
     while (current != nullptr && current->key != key) {
-        prev = current;
         current = current->next;
     }
-
-    // If the node with the key is found
     if (current != nullptr) {
-        prev->next = current->next;  // Bypass the node to delete
-
-        // Update rear if we deleted the last node
-        if (current == rear) {
-            rear = prev;
+        if (current->prev != nullptr) {
+            current->prev->next = current->next;
+        } else {
+            head = current->next;
         }
-
+        if (current->next != nullptr) {
+            current->next->prev = current->prev;
+        } else {
+            rear = current->prev;
+        }
         delete current;
     } else {
-        cout << "The specified element was not found." << endl;
+        cout << "Element not found." << endl;
     }
 }
-
