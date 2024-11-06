@@ -2,20 +2,18 @@
 #include "Lists.h"
 using namespace std;
 
-// Push: Add element to the top of the stack
+// Push: Add element to the beginning of the list
 void push(Node*& head, Node*& rear, datatype key) {
-      Node* newNode = new Node{key, head, nullptr};
-          if (head != nullptr) {
-                    head->prev = newNode;
-                        } else {
-                                  rear = newNode; // If list was empty, rear is also the new node
-                                                  //     }
-                                                  //         head = newNode;
-                                                  //         }
-                        }
-          }
+    Node* newNode = new Node{key, head, nullptr};
+    if (head != nullptr) {
+        head->prev = newNode;
+    } else {
+        rear = newNode; // If list was empty, rear is also the new node
+    }
+    head = newNode;
+}
 
-// Pop: Remove element from the top of the stack
+// Pop: Remove element from the beginning of the list
 void pop(Node*& head, Node*& rear) {
     if (head == nullptr) {
         cout << "The list is empty, nothing to pop out" << endl;
@@ -31,15 +29,30 @@ void pop(Node*& head, Node*& rear) {
     delete temp;
 }
 
-// Show: Display all elements in the stack
+// Pop_end: Remove element from the end of the list
+void pop_end(Node*& head, Node*& rear) {
+    if (rear == nullptr) {
+        cout << "The list is empty, nothing to pop out" << endl;
+        return;
+    }
+    Node* temp = rear;
+    rear = rear->prev;
+    if (rear != nullptr) {
+        rear->next = nullptr;
+    } else {
+        head = nullptr; // List is now empty
+    }
+    delete temp;
+}
 
+// Show: Display all elements in the list
 void show(Node* head) {
     if (head == nullptr) {
-        cout << "The stack is empty, nothing to show" << endl;
+        cout << "The list is empty, nothing to show" << endl;
         return;
     }
     Node* temp = head;
-    cout << "Stack Content: ";
+    cout << "List Content: ";
     while (temp != nullptr) {
         cout << temp->key << " ";
         temp = temp->next;
@@ -93,26 +106,27 @@ void dequeue(Node*& front, Node*& rear) {
     Node* temp = front;  // Hold the front node temporarily
     front = front->next; // Move front to the next node
 
-    // If front becomes nullptr after moving, the queue is empty, so set rear to nullptr as well
-    if (front == nullptr) {
-        rear = nullptr;
+    if (front != nullptr) {
+        front->prev = nullptr;
+    } else {
+        rear = nullptr; // Queue is now empty
     }
 
     delete temp;  // Delete the old front node
 }
 
 void search(Node* head, datatype key) {
-      Node* current = head;
-          int position = 0;
-              while (current != nullptr) {
-                        if (current->key == key) {
-                                      cout << "Element found at position: " << position << endl;
-                                                  return;
-                                                          }
-                                current = current->next;
-                                        position++;
-                                            }
-                  cout << "Element not found." << endl;
+    Node* current = head;
+    int position = 0;
+    while (current != nullptr) {
+        if (current->key == key) {
+            cout << "Element found at position: " << position << endl;
+            return;
+        }
+        current = current->next;
+        position++;
+    }
+    cout << "Element not found." << endl;
 }
 
 void add_mid(Node*& head, Node*& rear, datatype key) {
@@ -161,3 +175,4 @@ void del_mid(Node*& head, Node*& rear, datatype key) {
         cout << "Element not found." << endl;
     }
 }
+

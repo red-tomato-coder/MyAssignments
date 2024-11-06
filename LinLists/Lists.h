@@ -11,17 +11,17 @@ struct Node {
 };
 
 // Function prototypes
-void push(Node*& head, datatype key);
-void pop(Node*& head);
+void push(Node*& head, Node*& rear, datatype key);
+void pop(Node*& head, Node*& rear);
 void show(Node* head);
-void show2(Node* head);
+void show2(Node* front);
 void clear(Node*& head);
-void enqueue(Node*& front, Node*& rear, datatype key);
+void enqueue(Node*& head, Node*& rear, datatype key);
 void dequeue(Node*& front, Node*& rear);
-void search(Node* head, Node* rear, datatype key);
-void add_mid(Node* head, Node* rear, datatype key);
+void search(Node* head, datatype key);
+void add_mid(Node*& head, Node*& rear, datatype key);
 void del_mid(Node*& head, Node*& rear, datatype key);
-
+void pop_end(Node*& head, Node*& rear); // New function to delete from the end
 
 #endif
 
