@@ -30,7 +30,7 @@ void pop(Node*& head, Node*& rear) {
 }
 
 // Pop_end: Remove element from the end of the list
-void pop_end(Node*& head, Node*& rear) {
+void dequeue(Node*& head, Node*& rear) {
     if (rear == nullptr) {
         cout << "The list is empty, nothing to pop out" << endl;
         return;
@@ -97,7 +97,7 @@ void enqueue(Node*& head, Node*& rear, datatype key) {
     }
 }
 
-void dequeue(Node*& front, Node*& rear) {
+/*void dequeue(Node*& front, Node*& rear) {
     if (front == nullptr) {  // Check if the queue is empty
         cout << "The queue is empty, nothing to dequeue." << endl;
         return;
@@ -114,7 +114,7 @@ void dequeue(Node*& front, Node*& rear) {
 
     delete temp;  // Delete the old front node
 }
-
+*/
 void search(Node* head, datatype key) {
     Node* current = head;
     int position = 0;

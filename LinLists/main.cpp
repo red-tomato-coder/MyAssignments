@@ -119,7 +119,7 @@ void Third(){
                 pop(head, rear);
                 break;
             case 4:
-                pop_end(head, rear);
+                dequeue(head, rear);
                 cout << endl;
                 break;
             case 5:
