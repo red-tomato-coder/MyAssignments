@@ -7,7 +7,7 @@ typedef int datatype;
 struct Node {
     datatype key;
     Node* next;
-    Node* previous; // Only relevant for doubly linked lists
+    Node* prev; // Only relevant for doubly linked lists
 };
 
 // Function prototypes

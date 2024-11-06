@@ -14,7 +14,6 @@ void push(Node*& head, Node*& rear, datatype key) {
                                                   //         }
                         }
           }
-}
 
 // Pop: Remove element from the top of the stack
 void pop(Node*& head, Node*& rear) {
@@ -114,9 +113,6 @@ void search(Node* head, datatype key) {
                                         position++;
                                             }
                   cout << "Element not found." << endl;
-}
-                        }
-              }
 }
 
 void add_mid(Node*& head, Node*& rear, datatype key) {
