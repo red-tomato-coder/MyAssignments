@@ -70,9 +70,9 @@ void MyWindow::add_entry(Gtk::Entry& entry, const Glib::ustring& placeholder) {
 }
 
 int MyWindow::easyBisection(double a, double b, double eps, int kmax) {
-int count = 0;
+    int count = 0;
 
-    // Check if root is at the initial endpoints
+    // Check if the root is at the initial endpoints
     if (f1(a) == 0.0) {
         m_x.set_text("Root: " + std::to_string(a));
         m_iterations.set_text("Iterations: " + std::to_string(count));
@@ -85,34 +85,31 @@ int count = 0;
     }
 
     if (f1(a) * f1(b) > 0) {
-        std::cerr << "No guarantee that roots found in the given range for the easy Bisection method." << std::endl;
+        std::cerr << "No guarantee that roots are found in the given range for easy Bisection." << std::endl;
         m_x.set_text("Error: Function values at endpoints do not have opposite signs.");
         m_iterations.set_text("Iterations: N/A");
         return -1;
     }
 
-    double mid;
+    double mid, Fc;
     while (count < kmax) {
         mid = (a + b) / 2.0;
+        Fc = f1(mid);
 
         // Check if root is at the midpoint
-        if (f1(mid) == 0.0) {
+        if (Fc == 0.0 || std::abs(b - a) < eps) {
             m_x.set_text("Root: " + std::to_string(mid));
             m_iterations.set_text("Iterations: " + std::to_string(count));
             return 0;
         }
 
-        if (std::abs(b - a) < eps) {
-            m_x.set_text("Root: " + std::to_string(mid));
-            m_iterations.set_text("Iterations: " + std::to_string(count));
-            return 0;
-        }
-
-        if (f1(a) * f1(mid) < 0) {
+        // Apply the bisection method
+        if (f1(a) * Fc < 0) {
             b = mid;
         } else {
             a = mid;
         }
+
         count++;
     }
 
@@ -122,31 +119,35 @@ int count = 0;
     return -1;
 }
 
-
 int MyWindow::hardBisection(double a, double b, double eps, int kmax) {
     int count = 0;
+
     if (f2(a) * f2(b) >= 0) {
-        std::cerr << "No guarantee that roots found in the given range for the hard Bisection method." << std::endl;
+        std::cerr << "No guarantee that roots are found in the given range for hard Bisection." << std::endl;
         m_x.set_text("Error: Function values at endpoints do not have opposite signs.");
         m_iterations.set_text("Iterations: N/A");
         return -1;
     }
 
-    double mid;
+    double mid, Fc;
     while (count < kmax) {
         mid = (a + b) / 2.0;
-        if (std::abs(b - a) < eps) {
-            std::cout << "Root: " << mid << ", Iterations: " << count << std::endl;
+        Fc = f2(mid);
+
+        // Check if root is at the midpoint
+        if (Fc == 0.0 || std::abs(b - a) < eps) {
             m_x.set_text("Root: " + std::to_string(mid));
             m_iterations.set_text("Iterations: " + std::to_string(count));
             return 0;
         }
 
-        if (f2(a) * f2(mid) < 0) {
+        // Apply the bisection method
+        if (f2(a) * Fc < 0) {
             b = mid;
         } else {
             a = mid;
         }
+
         count++;
     }
 
@@ -241,5 +242,3 @@ int main(int argc, char *argv[]) {
     auto app = Gtk::Application::create("org.gtkmm.myPreciousAtaP");
     return app->make_window_and_run<MyWindow>(argc, argv);
 }
-
-
