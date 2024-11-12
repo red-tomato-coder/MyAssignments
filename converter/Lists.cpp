@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include "Lists.h"
 using namespace std;
 
@@ -7,7 +8,22 @@ void push(Node*& head, datatype key) {
     Node* newNode = new Node{key, head, nullptr}; // Create new node
     head = newNode; // Set new node as head
 }
-
+char top(Node*& head){
+  if(head != nullptr){
+    return head;
+  }
+  else{
+    return -1;
+  }
+}
+bool empty(Node*& head){
+  if(head != nullptr){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
 // Pop: Remove element from the top of the stack
 void pop(Node*& head) {
     if (head == nullptr) {

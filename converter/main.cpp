@@ -1,7 +1,11 @@
 #include <iostream>
 #include <vector>
+#include <string>
+#include "Converter.h"
 
 using namespace std;
+
+
 
 int* stringToEquation(){
   string e;
@@ -25,6 +29,12 @@ int main(){
       break;
     case 2:
       infixToSuffix(equation);
+      break;
+    case 3:
+      prefixToInfix(equation);
+      break;
+    case 4:
+      suffixToInfix(equation);
       break;
     default:
       

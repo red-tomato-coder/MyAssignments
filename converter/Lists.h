@@ -1,8 +1,11 @@
+
+
 #ifndef LISTS_H
 #define LISTS_H
 
 // Use 'int' or another type for datatype if unspecified
-typedef int datatype;
+#include<string>
+typedef std::string datatype;
 
 struct Node {
     datatype key;
@@ -12,6 +15,8 @@ struct Node {
 
 // Function prototypes
 void push(Node*& head, datatype key);
+char top(Node*& head);
+bool empty(Node*& head);
 void pop(Node*& head);
 void show(Node* head);
 void show2(Node* head);

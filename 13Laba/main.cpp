@@ -8,8 +8,20 @@ public:
 private:
     void buttonClicked();  // Handle "РОЗВ'ЯЗАТИ" button click
     void sizeButtonClicked();  // Handle "ВСТАНОВИТИ" button click
-    void add_entry(Gtk::Entry& entry, const Glib::ustring& placeholder);  // Add entry with placeholder
-
+    void add_entry(Gtk::Entry& entry, const Glib::ustring& placeholder);  // Add entry with set_placeholder_text
+    void on_check_inputs() {
+        for (const auto& row : m_Entries) {
+            for (const auto* entry : row) {
+                if (entry->get_text().empty()) {
+                    Gtk::MessageDialog dialog(*this, "Error: All fields must be filled!", false, Gtk::MessageType::ERROR);
+                    dialog.run();
+                    return;
+                }
+            }
+        }
+        Gtk::MessageDialog dialog(*this, "All fields are filled!", false, Gtk::MessageType::INFO);
+        dialog.run();
+    }
     Gtk::Box m_Box;
     Gtk::Label m_Label;
     Gtk::Button m_Button;
@@ -72,19 +84,28 @@ void MyWindow::sizeButtonClicked() {
         return;
     }
 
-    // Populate the grid with empty labels
+    // Populate the grid with entry widgets
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
-            auto* label = Gtk::make_managed<Gtk::Label>(std::to_string(i * size + j + 1));
-            m_Grid.attach(*label, j, i);  // Attach label at grid cell (column, row)
+            // Create an entry for each cell
+            auto* entry = Gtk::make_managed<Gtk::Entry>();
+            entry->set_placeholder_text("Введіть");
+            m_Grid.attach(*entry, j, i);  // Attach entry at grid cell (column, row)
         }
     }
 
     // Update results label
     m_Results.set_text("Grid розмір встановлено: " + std::to_string(size) + "x" + std::to_string(size));
 }
+
+
 void MyWindow::buttonClicked() {
-    m_Results.set_text("РОЗВ'ЯЗАННЯ ПОЧИНАЄТЬСЯ!");  // Placeholder for solving logic
+  if(on_check_inputs()){
+
+  }
+  else{
+    m_Results.set_text("ВВЕДІТЬ КОРЕКТНІ ДАНІ");
+  }
 }
 
 int main(int argc, char* argv[]) {
