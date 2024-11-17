@@ -1,43 +1,54 @@
 #include <iostream>
-#include <vector>
 #include <string>
 #include "Converter.h"
 
-using namespace std;
+// Only use specific symbols we need
+using std::cout;
+using std::cin;
+using std::endl;
+using std::string;
 
-
-
-int* stringToEquation(){
-  string e;
-  cout << "\nType your equation: ";
-  cin >> e;
-  cout << endl;
-  
-  // Convert the string to a character array and return the pointer
-  // However, remember this is still risky in real scenarios
-  return (int*)e.c_str();
-}
-
-int main(){
-  int choice;
-  cout << "Menu:\n1.Infix => Prefix\n2. Infix => Suffix\n";
-  cin >> choice;
-  int* equation = stringToEquation();
-  switch (choice) {
-    case 1:
-      infixToPrefix(equation);
-      break;
-    case 2:
-      infixToSuffix(equation);
-      break;
-    case 3:
-      prefixToInfix(equation);
-      break;
-    case 4:
-      suffixToInfix(equation);
-      break;
-    default:
-      
-      break;
-  }
+int main() {
+    int choice;
+    string equation;
+    
+    while (true) {
+        cout << "\nExpression Converter Menu:\n"
+             << "1. Infix to Prefix\n"
+             << "2. Infix to Suffix (Postfix)\n"
+             << "3. Prefix to Infix\n"
+             << "4. Suffix to Infix\n"
+             << "5. Exit\n"
+             << "Enter your choice (1-5): ";
+        
+        cin >> choice;
+        
+        if (choice == 5) break;
+        
+        cout << "Enter your expression: ";
+        cin >> equation;
+        
+        try {
+            switch (choice) {
+                case 1:
+                    cout << "Prefix: " << infixToPrefix(equation) << endl;
+                    break;
+                case 2:
+                    cout << "Suffix: " << infixToSuffix(equation) << endl;
+                    break;
+                case 3:
+                    cout << "Infix: " << prefixToInfix(equation) << endl;
+                    break;
+                case 4:
+                    cout << "Infix: " << suffixToInfix(equation) << endl;
+                    break;
+                default:
+                    cout << "Invalid choice! Please select 1-5.\n";
+            }
+        } catch (const std::exception& e) {
+            cout << "Error: Invalid expression\n";
+        }
+    }
+    
+    return 0;
 }
