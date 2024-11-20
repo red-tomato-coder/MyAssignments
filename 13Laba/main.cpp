@@ -153,19 +153,19 @@ void MyWindow::calculateResults() {
         if (!readMatrix(A, b)) return;
 
         // Calculate row sums
-        std::vector<double> sum(size, 0);
+        /*std::vector<double> sum(size, 0);
         for (size_t i = 0; i < size; ++i) {
             for (size_t j = 0; j < size; ++j) {
                 sum[i] += A[i][j];  // Sum up the elements of the i-th row
             }
         }
 
-        // Debug output for row sums
+        Debug output for row sums
         std::cout << "Row sums:" << std::endl;
         for (size_t i = 0; i < size; ++i) {
             m_Results.set_text(m_Results.get_text() + "Sum of row " + std::to_string(i) + ": " + std::to_string(sum[i]) + "\n");
             std::cout << "Sum of row " << i << ": " << sum[i] << std::endl;
-        }
+        }*/
 
         double detA = calculateDeterminant(A);
         if (std::abs(detA) < 1e-8) {
@@ -188,7 +188,7 @@ void MyWindow::calculateResults() {
             std::cout << "x[" << i << "] = " << x[i] << std::endl;
         }
         x.clear();
-        sum.clear();
+        //sum.clear();
         performForwardElimination(A);
         displayTriangularMatrix(A);
         // Clear vectors
