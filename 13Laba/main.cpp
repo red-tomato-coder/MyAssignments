@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <stdexcept>
-#include <cmath> // For determinant calculation
+#include <cmath>
 
 class MyWindow : public Gtk::Window {
 public:
@@ -255,11 +255,11 @@ void MyWindow::displayTriangularMatrix(const std::vector<std::vector<double>>& o
 
     // Perform forward elimination on the copy
     size_t N = A.size();
-    for (size_t k = 0; k < N; ++k) {
-        for (size_t i = k + 1; i < N; ++i) {
+    for (size_t k = 0; k < N; k++) {
+        for (size_t i = k + 1; i < N; i++) {
             if (A[k][k] == 0) continue; // Avoid division by zero
             double factor = A[i][k] / A[k][k];
-            for (size_t j = k; j < N; ++j) {
+            for (size_t j = k; j < N; j++) {
                 A[i][j] -= factor * A[k][j];
             }
         }
@@ -311,7 +311,7 @@ void MyWindow::performForwardElimination(std::vector<std::vector<double>>& A) {
     }
 }
 int main(int argc, char* argv[]) {
-    auto app = Gtk::Application::create("org.gtkmm.myPreciousAtaP12");
+    auto app = Gtk::Application::create("org.gtkmm.myPreciousAtaP13");
     return app->make_window_and_run<MyWindow>(argc, argv);
 }
  

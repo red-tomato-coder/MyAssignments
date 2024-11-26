@@ -2,7 +2,13 @@
 #define LISTS_H
 
 #include <string>
+#include <stack>
+#include <queue>
 
+typedef std::stack<int> Stack;
+typedef std::queue<int> Queue;
+
+// No need to define push, pop, enqueue, dequeue manually; they are available through std
 struct Node {
     std::string key;
     Node* next;
