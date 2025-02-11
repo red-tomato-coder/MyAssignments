@@ -1,19 +1,34 @@
 #include <iostream>
-#include "Lists.h" // Include your custom library for managing linked lists
+#include <vector>
 #include "Graphs.h"
 
 int main() {
+    std::cout << "Graph contents:\n";
+    for (size_t i = 0; i < graph.size(); ++i) {
+        if (graph[i] == nullptr) {
+            std::cerr << "Error: Node " << i << " is null.\n";
+        } else {
+            std::cout << "Node " << i << " key: " << graph[i]->key << "\n";
+        }
+    }
+
+    // Ensure graph size matches expectations
+    if (graph.size() != 9) {
+        std::cerr << "Error: Graph size is " << graph.size() << ", expected 8.\n";
+        return 1;
+    }
+
     std::cout << "DFS Recursive:\n";
-    std::vector<bool> visited(9, false);
-    DFSRecursive(0, visited);  // Start DFS from node 0
+    std::vector<bool> visited(graph.size(), false);
+    DFSRecursive(0, visited);
     std::cout << "\n";
 
     std::cout << "DFS Non-Recursive:\n";
-    DFSNonRecursive(0);  // Start DFS from node 0
+    DFSNonRecursive(0);
     std::cout << "\n";
 
     std::cout << "BFS:\n";
-    BFS(0);  // Start BFS from node 0
+    BFS(0);
     std::cout << "\n";
 
     return 0;

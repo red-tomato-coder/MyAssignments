@@ -3,12 +3,18 @@
 
 #include <vector>
 #include <string>
-#include "Lists.h"
 
-// Function prototypes
+struct Node {
+    std::string key;
+    Node* next;
+};
+
+extern std::vector<Node*> graph; // Declare graph as an external variable
+
+void initializeGraph(int numNodes);
 void DFSRecursive(int node, std::vector<bool>& visited);
 void DFSNonRecursive(int startNode);
 void BFS(int startNode);
 
-#endif // GRAPHS_H
+#endif
 

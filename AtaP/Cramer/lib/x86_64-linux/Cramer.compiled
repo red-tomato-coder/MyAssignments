@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Compiler Value="/usr/bin/fpc" Date="1722124800"/>
+  <Params Value=" -MObjFPC -Scghi -Cg -O1 -gw3 -gl -l -vewnhibq -Fi/home/anton/DiscretLab/Cramer/lib/x86_64-linux -Fu/usr/lib64/lazarus/lcl/units/x86_64-linux/gtk2 -Fu/usr/lib64/lazarus/lcl/units/x86_64-linux -Fu/usr/lib64/lazarus/components/freetype/lib/x86_64-linux -Fu/usr/lib64/lazarus/components/lazutils/lib/x86_64-linux -Fu/usr/lib64/lazarus/packager/units/x86_64-linux -Fu/home/anton/DiscretLab/Cramer/ -FU/home/anton/DiscretLab/Cramer/lib/x86_64-linux/ -FE/home/anton/DiscretLab/Cramer/ -o/home/anton/DiscretLab/Cramer/Cramer -dLCL -dLCLgtk2 Cramer.lpr"/>
+</CONFIG>

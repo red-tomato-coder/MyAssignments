@@ -1,75 +1,111 @@
-#include "Lists.h"
 #include <vector>
 #include <iostream>
+#include <stack>
+#include <queue>
 #include "Graphs.h"
 
-// Define graph as a global variable **only here** (source file)
 std::vector<Node*> graph = {
-    new Node{"1", nullptr},     // 0
-    new Node{"0 2 3 4", nullptr}, // 1
-    new Node{"0 1", nullptr},     // 2
-    new Node{"1 5", nullptr},     // 3
-    new Node{"1", nullptr},      // 4
-    new Node{"3 6 7 8", nullptr}, // 5
-    new Node{"5", nullptr},      // 6
-    new Node{"5 8", nullptr},    // 7
-    new Node{"5 7 9", nullptr},  // 8
-    new Node{"8", nullptr},      // 9
-};
+    new Node{"1 2 3 6 7", nullptr},
+    new Node{"0 6 7", nullptr},
+    new Node{"0", nullptr},
+    new Node{"0 4 5", nullptr},
+    new Node{"3 5", nullptr},
+    new Node{"3 4", nullptr},
+    new Node{"0 1", nullptr}, 
+    new Node{"0 1 7", nullptr},
+    new Node{"0 1 6", nullptr}};
 
-// Initialize graph or add nodes to it as needed
 void initializeGraph(int numNodes) {
-    graph.resize(numNodes, nullptr);  // Example: resize to `numNodes` and initialize with nullptr
+    graph.resize(numNodes, nullptr);
 }
 
 void DFSRecursive(int node, std::vector<bool>& visited) {
-    visited[node] = true;
-    std::cout << node << " ";
+    if (node < 0 || node >= graph.size()) {
+        std::cerr << "Error: Invalid node index " << node << ".\n";
+        return;
+    }
 
-    for (const char& neighbor : graph[node]->key) {
-        if (neighbor != ' ' && !visited[neighbor - '0']) {
-            DFSRecursive(neighbor - '0', visited);
+    if (visited[node]) return;
+
+    visited[node] = true;
+    std::cout << node + 1 << " ";
+    Node* currentNode = graph[node];
+    if (currentNode == nullptr) {
+        std::cerr << "Error: Node " << node << " is null.\n";
+        return;
+    }
+
+    for (const char& neighborChar : currentNode->key) {
+        if (neighborChar != ' ') {
+            int neighbor = neighborChar - '0'; // Convert char to int
+            if (neighbor >= 0 && neighbor < graph.size()) {
+                DFSRecursive(neighbor, visited);
+            } else {
+                std::cerr << "Error: Neighbor index " << neighbor
+                          << " out of bounds for node " << node << ".\n";
+            }
         }
     }
 }
 
 void DFSNonRecursive(int startNode) {
+    if (startNode < 0 || startNode >= graph.size()) {
+        std::cerr << "Error: Start node index " << startNode << " out of bounds.\n";
+        return;
+    }
+
     std::vector<bool> visited(graph.size(), false);
-    Stack stack;
-    stack.push(startNode);  // Use std::stack push method
+    std::stack<int> stack;
+    stack.push(startNode);
 
     while (!stack.empty()) {
-        int node = stack.top();  // Use std::stack top method
-        stack.pop(); // Use std::stack pop method
+        int node = stack.top();
+        stack.pop();
+
+        if (node < 0 || node >= graph.size()) {
+            std::cerr << "Error: Node index " << node << " out of bounds.\n";
+            continue; // Skip invalid nodes
+        }
 
         if (!visited[node]) {
             visited[node] = true;
-            std::cout << node << " ";
+            std::cout << node + 1 << " ";
 
-            // Push all adjacent unvisited nodes onto the stack
-            for (const char& neighbor : graph[node]->key) {
-                if (neighbor != ' ' && !visited[neighbor - '0']) {
-                    stack.push(neighbor - '0');
+            Node* currentNode = graph[node];
+            if (currentNode == nullptr) {
+                std::cerr << "Error: Node " << node << " is null.\n";
+                continue; // Skip null nodes
+            }
+
+            // Push neighbors to stack
+            for (const char& neighborChar : currentNode->key) {
+                if (neighborChar != ' ') {
+                    int neighbor = neighborChar - '0'; // Convert char to int
+                    if (neighbor >= 0 && neighbor < graph.size()) {
+                        stack.push(neighbor);
+                    } else {
+                        std::cerr << "Error: Neighbor index " << neighbor
+                                  << " out of bounds for node " << node << ".\n";
+                    }
                 }
             }
         }
     }
 }
 
+
 void BFS(int startNode) {
     std::vector<bool> visited(graph.size(), false);
-    Queue queue;
-    queue.push(startNode);  // Use std::queue push method
+    std::queue<int> queue; // Use std::queue
+    queue.push(startNode);
 
     while (!queue.empty()) {
-        int node = queue.front();  // Use std::queue front method
-        queue.pop(); // Use std::queue pop method
+        int node = queue.front();
+        queue.pop();
 
         if (!visited[node]) {
             visited[node] = true;
-            std::cout << node << " ";
-
-            // Enqueue all adjacent unvisited nodes
+            std::cout << node + 1 << " "; 
             for (const char& neighbor : graph[node]->key) {
                 if (neighbor != ' ' && !visited[neighbor - '0']) {
                     queue.push(neighbor - '0');
