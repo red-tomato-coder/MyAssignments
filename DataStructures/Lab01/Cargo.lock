@@ -5,3 +5,10 @@ version = 4
 [[package]]
 name = "Lab_01_СортуванняЗлиттям"
 version = "0.1.0"
+dependencies = [
+ "sortinglib",
+]
+
+[[package]]
+name = "sortinglib"
+version = "0.1.0"

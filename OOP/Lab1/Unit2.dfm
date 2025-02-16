@@ -211,26 +211,54 @@ object Form2: TForm2
     object TabSheet2: TTabSheet
       Caption = #1030#1085#1090#1077#1075#1088#1091#1074#1072#1085#1085#1103' '#1092#1091#1085#1082#1094#1110#1081
       ImageIndex = 1
-      object Label9: TLabel
+      object LabelResult: TLabel
         Left = 304
         Top = 64
         Width = 63
         Height = 15
         Caption = #1056#1077#1079#1091#1083#1100#1090#1072#1090#1080':'
       end
+      object Label11: TLabel
+        Left = 71
+        Top = 307
+        Width = 17
+        Height = 15
+        Caption = 'a ='
+      end
+      object Label12: TLabel
+        Left = 70
+        Top = 333
+        Width = 18
+        Height = 15
+        Caption = 'b ='
+      end
+      object Label13: TLabel
+        Left = 59
+        Top = 389
+        Width = 29
+        Height = 15
+        Caption = 'eps ='
+      end
+      object Label14: TLabel
+        Left = 68
+        Top = 363
+        Width = 20
+        Height = 15
+        Caption = 'N ='
+      end
       object RadioGroup1: TRadioGroup
-        Left = 25
+        Left = 185
         Top = 306
         Width = 113
         Height = 79
         Caption = #1054#1073#1077#1088#1110#1090#1100' '#1092#1091#1085#1082#1094#1110#1102
         Items.Strings = (
           '1/(x+x^2+1)'
-          'x^2+x')
+          'x^2-x')
         TabOrder = 0
       end
       object RadioGroup2: TRadioGroup
-        Left = 152
+        Left = 304
         Top = 306
         Width = 169
         Height = 78
@@ -248,6 +276,35 @@ object Form2: TForm2
         Height = 79
         Caption = #1054#1073#1095#1080#1089#1083#1080#1090#1080
         TabOrder = 2
+        OnClick = Button2Click
+      end
+      object EditA: TEdit
+        Left = 94
+        Top = 304
+        Width = 85
+        Height = 23
+        TabOrder = 3
+      end
+      object EditB: TEdit
+        Left = 94
+        Top = 331
+        Width = 85
+        Height = 23
+        TabOrder = 4
+      end
+      object EditEps: TEdit
+        Left = 94
+        Top = 389
+        Width = 85
+        Height = 23
+        TabOrder = 5
+      end
+      object EditN: TEdit
+        Left = 94
+        Top = 360
+        Width = 85
+        Height = 23
+        TabOrder = 6
       end
     end
   end

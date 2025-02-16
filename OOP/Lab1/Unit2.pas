@@ -34,16 +34,24 @@ type
     ComboBox3: TComboBox;
     ComboBox4: TComboBox;
     Image1: TImage;
-    RadioGroup1: TRadioGroup;
-    RadioGroup2: TRadioGroup;
-    Label9: TLabel;
-    Button2: TButton;
-    ComboBox5: TComboBox;
+    RadioGroup1: TRadioGroup; // Options: 1/(1+x+x²) and x²–x (for integration)
+    RadioGroup2: TRadioGroup; // Options: Midpoint, Simpson, Trapezoid methods
+    LabelResult: TLabel;
+    Button2: TButton; // Integration execution button
+    ComboBox5: TComboBox; // Function selector for Fourier series (sin(x), cos(x), etc.)
+    EditA: TEdit;
+    EditB: TEdit;
+    EditN: TEdit;
+    EditEps: TEdit;
     procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
+    function MidpointMethod(a, b, eps: Double; var N: Integer): Double;
+    function TrapezoidMethod(a, b, eps: Double; var N: Integer): Double;
+    function SimpsonMethod(a, b, eps: Double; var N: Integer): Double;
   end;
 
 var
@@ -60,7 +68,7 @@ implementation
 
 {$R *.dfm}
 
-{ --- Function to choose the function to tabulate --- }
+{ --- Fourier series function to tabulate --- }
 function f(x: Real): Real;
 begin
   if Form2.ComboBox5.Text = 'sin(x)' then
@@ -73,10 +81,21 @@ begin
     Result := sin(x);  // Default case
 end;
 
+{ --- Integration function based on RadioGroup1 selection --- }
+function IntFunc(x: Double): Double;
+begin
+  if Form2.RadioGroup1.ItemIndex = 0 then
+    Result := 1 / (1 + x + x * x)
+  else if Form2.RadioGroup1.ItemIndex = 1 then
+    Result := x * x - x
+  else
+    Result := 1 / (1 + x + x * x);
+end;
+
 { --- Tabulate the function f over [al, bl] using Ne subintervals --- }
 procedure TabF(var Xe: Vector; var Ye: Vector);
 var
-  h, i: Real;
+  h: Real;
   idx: Integer;
 begin
   h := (bl - al) / Ne;
@@ -184,6 +203,8 @@ begin
   end;
 end;
 
+{ --- Integration Methods --- }
+
 function TForm2.MidpointMethod(a, b, eps: Double; var N: Integer): Double;
 var
   steps: Integer;
@@ -201,7 +222,7 @@ begin
     for var i := 1 to N do
     begin
       x := a + h * (i - 0.5);
-      sum := sum + 1 / (1 + x + x * x);
+      sum := sum + IntFunc(x);
     end;
 
     resultValue := h * sum;
@@ -234,11 +255,11 @@ begin
     for var i := 1 to N - 1 do
     begin
       x := a + i * h;
-      sum := sum + 1 / (1 + x + x * x);
+      sum := sum + IntFunc(x);
     end;
 
-    fa := 1 / (1 + a + a * a);
-    fb := 1 / (1 + b + b * b);
+    fa := IntFunc(a);
+    fb := IntFunc(b);
 
     resultValue := h * (fa + fb + 2 * sum) / 2.0;
     Inc(steps);
@@ -264,6 +285,10 @@ begin
 
   while True do
   begin
+    // Ensure N is even for Simpson's rule
+    if (N mod 2) <> 0 then
+      N := N + 1;
+
     h := (b - a) / N;
     sumOdd := 0.0;
     sumEven := 0.0;
@@ -272,13 +297,13 @@ begin
     begin
       x := a + i * h;
       if (i mod 2) = 1 then
-        sumOdd := sumOdd + 1 / (1 + x + x * x)
+        sumOdd := sumOdd + IntFunc(x)
       else
-        sumEven := sumEven + 1 / (1 + x + x * x);
+        sumEven := sumEven + IntFunc(x);
     end;
 
-    fa := 1 / (1 + a + a * a);
-    fb := 1 / (1 + b + b * b);
+    fa := IntFunc(a);
+    fb := IntFunc(b);
 
     resultValue := h * (fa + fb + 4 * sumOdd + 2 * sumEven) / 6.0;
     Inc(steps);
@@ -292,7 +317,8 @@ begin
 
   Result := resultValue;
 end;
-{ --- Button1Click: Tabulate, compute Fourier series, draw graphs, then (optionally) show harmonics --- }
+
+{ --- Button1Click: Fourier Series Tabulation, Computation and Drawing --- }
 procedure TForm2.Button1Click(Sender: TObject);
 var
   i: Integer;
@@ -300,9 +326,8 @@ var
   minYg, maxYg, maxx, minx, maxy, miny: Real;
   kx, ky: Real;
   ox, oy: Integer;
-  xx, yy, krx, kry: Real;
 begin
-  // Read the number of subintervals and interval bounds
+  // Read the number of subintervals and interval bounds for the Fourier series
   Ne := StrToInt(EditNe.Text);
   al := StrToFloat(Edital.Text);
   bl := StrToFloat(Editbl.Text);
@@ -336,7 +361,6 @@ begin
   ky := (Image1.Height - 40) / (maxy - miny);
 
   // Compute the pixel position of the x-axis (y=0) and y-axis (x=0)
-  // (if 0 lies within the range; otherwise, use one of the edges)
   if (minx < 0) and (maxx > 0) then
     ox := 20 + Round((0 - minx) * kx)
   else if maxx <= 0 then
@@ -368,10 +392,8 @@ begin
     kroky := (Height - 40) div 10;
     for i := 0 to 10 do
     begin
-      // Horizontal grid lines
       Canvas.MoveTo(20, 20 + i * kroky);
       Canvas.LineTo(Width - 20, 20 + i * kroky);
-      // Vertical grid lines
       Canvas.MoveTo(20 + i * krokx, 20);
       Canvas.LineTo(20 + i * krokx, Height - 20);
     end;
@@ -379,10 +401,8 @@ begin
     // Draw the coordinate axes
     Canvas.Pen.Color := clBlack;
     Canvas.Pen.Width := StrToInt(ComboBox3.Text);
-    // X-axis
     Canvas.MoveTo(20, oy);
     Canvas.LineTo(Width - 20, oy);
-    // Y-axis
     Canvas.MoveTo(ox, 20);
     Canvas.LineTo(ox, Height - 20);
 
@@ -408,15 +428,35 @@ begin
   // Ask the user whether to display the harmonic amplitudes.
   if MessageDlg('Показати гармоніки?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
-    Image1.Picture := nil; // clear the graph
+    Image1.Picture := nil; // Clear the graph
     Garm(Ng, c);
   end;
 end;
+
+{ --- Button2Click: Integration Execution --- }
 procedure TForm2.Button2Click(Sender: TObject);
 var
-a, b, N: Integer;
-eps: Double;
+  aVal, bVal, eps: Double;
+  n: Integer;
+  integralResult: Double;
 begin
+//  ShowMessage('DEBUUUG');
+  aVal := StrToFloat(EditA.Text);
+  bVal := StrToFloat(EditB.Text);
+  n := StrToInt(EditN.Text);
+  eps := StrToFloat(EditEps.Text);
 
+  case RadioGroup2.ItemIndex of
+    0: integralResult := MidpointMethod(aVal, bVal, eps, n);
+    1: integralResult := SimpsonMethod(aVal, bVal, eps, n);
+    2: integralResult := TrapezoidMethod(aVal, bVal, eps, n);
+  else
+    integralResult := MidpointMethod(aVal, bVal, eps, n);
+  end;
+
+  LabelResult.Caption := 'Integral = ' + FloatToStr(integralResult) + ', N = ' + IntToStr(n);
+  LabelResult.Refresh;
 end;
+
 end.
+
