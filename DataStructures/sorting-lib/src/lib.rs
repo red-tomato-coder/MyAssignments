@@ -13,6 +13,8 @@ mod tests {
     }
 }*/
 
+use rand::Rng;
+
 pub fn merge(arr: &mut Vec<i32>, p: usize, q: usize, r: usize) {
     let left = arr[p..=q].to_vec();
     let right = arr[q+1..=r].to_vec();
@@ -43,28 +45,30 @@ pub fn merge_sort(arr: &mut Vec<i32>, p: usize, r: usize) {
         merge(arr, p, q, r);  // Fix: pass arr as mutable reference
     }
 }
-
-pub fn quick_sort(arr: &mut Vec<i32>, p: usize, r: usize) {
-    if p < r {
-        let mut q = partition(arr, p, r);
-        quick_sort(arr, p, q-1);
-        quick_sort(arr, q+1, r);
+pub fn quick_sort(arr: &mut [i32]) {
+    if arr.len() <= 1 {
+        return;
     }
+
+    let mut rng = rand::thread_rng();
+    let n = rng.gen_range(0..arr.len());
+    arr.swap(n, arr.len() - 1); // Random pivot at the end
+
+    let q = partition(arr);
+    quick_sort(&mut arr[..q]);    // Sort left subarray
+    quick_sort(&mut arr[q+1..]);  // Sort right subarray
 }
 
-pub fn partition(arr: &mut Vec<i32>, p: usize, r: usize) {
-    let mut x = arr[r];
-    let mut i = p - 1;
-    let j = p;
-    for p in 0..r-1{
-        if arr[j] <= x{
-            i+=1;
-            let mut swap = arr[i];
-            arr[i] = arr[j];
-            arr[j] = swap;
+pub fn partition(arr: &mut [i32]) -> usize {
+    let pivot = arr[arr.len() - 1];
+    let mut i = 0;
+
+    for j in 0..arr.len() - 1 {
+        if arr[j] <= pivot {
+            arr.swap(i, j);
+            i += 1;
         }
     }
-    let mut swap = arr[i+1];
-    arr[i+1] = arr[r];
-    arr[r] = swap;
+    arr.swap(i, arr.len() - 1); // Place pivot in final position
+    i
 }

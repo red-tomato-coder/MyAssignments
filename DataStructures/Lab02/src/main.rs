@@ -11,7 +11,7 @@ fn main() {
         println!("Оригінальний масив: {:?}", vectors[i]); 
         
         let len = vectors[i].len();
-        sortinglib::squick_sort(&mut vectors[i], 0, len - 1);
+        sortinglib::quick_sort(&mut vectors[i]);
         
         println!("Відсортований масив: {:?}", vectors[i]);
     }
