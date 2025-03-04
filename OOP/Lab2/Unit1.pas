@@ -1,20 +1,21 @@
 program Unit1;
 
 uses
-  disco, SpherePas;
+  FactoryManager, SpherePas;
 
 var
   MySphere, nSphere: TSphere;
-  MyDisco: TDisco;
+  MyFactory: TFactoryManager;
   newRadius: Real;
   i: Integer;
+  total, supposedToBeDefect: Integer;
 
 begin
-  MySphere := TSphere.Create; //
+  MySphere := TSphere.Create;
   MySphere.DisplayStatistics;
   Writeln('===========');
 
-  nSphere := TSphere.Create(15.1); //
+  nSphere := TSphere.Create(15.1);
   nSphere.DisplayStatistics;
   Writeln('***********');
 
@@ -24,17 +25,25 @@ begin
   MySphere.DisplayStatistics;
 
   Writeln('===========');
-  MyDisco := TDisco.Create;
+  MyFactory := TFactoryManager.Create;
 
-  for i := 1 to 5 do
-    MyDisco.PatCat;
+  Writeln('Введіть кількість продуктів необхіжних: ');
+  Readln(total);
+  if total <= 0 then
+     total := 10;
+  Writeln('Введіть через скільки кожен продукт має бути дефектним');
+  Readln(supposedToBeDefect);
+  if supposedToBeDefect <= 0 then
+     supposedToBeDefect := 3;
 
-  Writeln('Котів погладжено: ', MyDisco.GetCatsPatted);
+  for i := 1 to total do
+    MyFactory.ProduceItem(i mod supposedToBeDefect = 0); // Кожен третій дефектний
 
-  Writeln(MyDisco.GetVibes);
-  MyDisco.Dance;
-  Writeln('Пар пропущено: ', MyDisco.OverengineeredSolution(0));
+  Writeln('Вироблено продуктів: ', MyFactory.GetProducedCount);
+  Writeln('Відсоток дефектних продуктів: ', MyFactory.GetDefectRate:0:2, '%');
 
-  Readln; //
+  MyFactory.ResetProduction;
+  Writeln('Після скидання вироблення продуктів: ', MyFactory.GetProducedCount);
+
+  Readln;
 end.
-

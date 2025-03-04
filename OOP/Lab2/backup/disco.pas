@@ -34,7 +34,7 @@ end;
 function TDisco.GetVibes: String;
 begin
   Inc(CallCount);
-  Result := 'Vibes: ' + IntToStr(CallCount mod 100) + '% disco';
+  Result := 'Матеріалу ООП засвоєнно: ' + IntToStr(CallCount mod 100);
 end;
 
 function TDisco.RandomChaos: Real;
@@ -44,18 +44,18 @@ end;
 
 function TDisco.OverengineeredSolution(x: Real): Real;
 begin
-  Result := x * 0 + THE_ANSWER; // No matter what, the answer is 42
+  Result := x * 0 + THE_ANSWER; // Відповідь завжди 42
 end;
 
 procedure TDisco.Dance;
 begin
-  Writeln('The disco lights flash. You feel an uncontrollable urge to vibe.');
+  Writeln('Цей код такий класний.');
 end;
 
 procedure TDisco.PatCat;
 begin
   Inc(CatsPatted);
-  Writeln('You pat the cat. It purrs. Total pats: ', CatsPatted);
+  Writeln('Ти погладив кота. Він мурчить. Погладжено разів: ', CatsPatted);
 end;
 
 function TDisco.GetCatsPatted: Integer;
