@@ -7,9 +7,8 @@
       <Unit>
         <Filename Value="Unit1.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <CursorPos X="29" Y="36"/>
-        <UsageCount Value="24"/>
+        <CursorPos X="16" Y="32"/>
+        <UsageCount Value="36"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -18,15 +17,16 @@
         <UnitName Value="FactoryManager"/>
         <EditorIndex Value="2"/>
         <CursorPos X="54" Y="42"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="36"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="SpherePas.pas"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="24"/>
         <CursorPos X="83" Y="23"/>
-        <UsageCount Value="13"/>
+        <UsageCount Value="19"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>
