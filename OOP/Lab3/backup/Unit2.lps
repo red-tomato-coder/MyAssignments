@@ -7,8 +7,7 @@
       <Unit>
         <Filename Value="Unit2.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <CursorPos X="14" Y="19"/>
+        <CursorPos X="12" Y="26"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
       </Unit>
@@ -21,13 +20,14 @@
       </Unit>
       <Unit>
         <Filename Value="MeowCar.pas"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <CursorPos Y="18"/>
+        <CursorPos X="15" Y="13"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="19">
+    <JumpHistory HistoryIndex="20">
       <Position>
         <Filename Value="Unit2.pas"/>
       </Position>
@@ -106,6 +106,10 @@
       <Position>
         <Filename Value="Unit2.pas"/>
         <Caret Line="12" Column="37"/>
+      </Position>
+      <Position>
+        <Filename Value="Unit2.pas"/>
+        <Caret Line="26" Column="12"/>
       </Position>
     </JumpHistory>
     <RunParams>

@@ -119,11 +119,10 @@ pub fn counting_sort(arr: &mut Vec<i32>) {
 
     // Відновлюємо відсортований масив
     let mut index = 0;
-    for (i, &count) in count.iter().enumerate() {
-        for _ in 0..count {
-            arr[index] = (i as i32) + min;
-            index += 1;
-        }
+    for (i, &freq) in count.iter().enumerate() {
+        let value = (i as i32) + min;
+        arr[index..index + freq].fill(value);
+        index += freq;
     }
 }
 

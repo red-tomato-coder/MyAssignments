@@ -15,7 +15,7 @@ type
     FFuelLevel: Real; // літри
   public
     constructor Create(make, model: String; fuelEfficiency: Real);
-    procedure Accelerate(amount: Real);
+    procedure Accelerate(amount: Real); virtual;
     procedure Brake(amount: Real);
     procedure Drive(distance: Real);
     procedure Refuel(amount: Real);
