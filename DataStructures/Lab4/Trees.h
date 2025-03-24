@@ -17,6 +17,9 @@ Node* FindNode(Node* root, int ParentKey);
 void InOrder(Node* root);
 void PostOrder(Node* root);
 void PreOrder(Node* root);
+int TreeHeight(Node* root);
+int treeHeight(Node* root);
+void printSpaces(int count);
 
 Node* CreateRootBST(int key, int first_key, int second_key);
 void InsertNodeBST(Node* root, Node* parentNode, int ChildKey);
@@ -25,5 +28,6 @@ void DeleteNodeBST(Node*& root, Node* delNode);
 Node* SuccessorNodeBST(Node* node);
 Node* PredecessorNodeBST(Node* node);
 void PrintTree(Node* root);
+void Recursive(Node*& root);
 
 #endif // TREES_H

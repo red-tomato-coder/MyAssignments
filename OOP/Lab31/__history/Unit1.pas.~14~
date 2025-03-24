@@ -1,0 +1,129 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls;
+
+type
+  // Declare the TForm1 class
+  TForm1 = class(TForm)
+    Image1: TImage;
+    procedure FormPaint(Sender: TObject);  // Declare the FormPaint event handler
+  end;
+
+  // Declare the TRectang class
+  TRectang = class  // Class with overloaded constructors
+  private
+    coord: Array [0..3] of Integer;  // Private array to store coordinates
+  public
+    Constructor Create(left, top, right, bottom: Integer); Overload;  // First constructor
+  published
+    Constructor Create(topLeft, bottomRight: TPoint); Overload;  // Second constructor
+  end;  // End of class declaration
+
+  // Declare the TTriangle class
+  TTriangle = class
+  private
+    points: Array [0..2] of TPoint;  // Private array to store triangle vertices
+  public
+    Constructor Create(p1, p2, p3: TPoint); Overload;  // First constructor (3 TPoint)
+    Constructor Create(x1, y1, x2, y2, x3, y3: Integer); Overload;  // Second constructor (6 integers)
+    procedure Draw(Canvas: TCanvas);  // Method to draw the triangle
+  end;  // End of class declaration
+
+var
+  Form1: TForm1;  // Declare the Form1 variable
+
+implementation
+{$R *.dfm}
+
+// First constructor: Takes 4 integers
+Constructor TRectang.Create(left, top, right, bottom: Integer);
+Begin
+  coord[0] := left;   // Store left coordinate
+  coord[1] := top;    // Store top coordinate
+  coord[2] := right;  // Store right coordinate
+  coord[3] := bottom; // Store bottom coordinate
+End;
+
+// Second constructor: Takes 2 TPoint objects
+Constructor TRectang.Create(topLeft, bottomRight: TPoint);
+Begin
+  coord[0] := topLeft.X;      // Store X of top-left point
+  coord[1] := topLeft.Y;      // Store Y of top-left point
+  coord[2] := bottomRight.X;  // Store X of bottom-right point
+  coord[3] := bottomRight.Y;  // Store Y of bottom-right point
+End;
+
+// TTriangle constructor: Takes 3 TPoint objects
+Constructor TTriangle.Create(p1, p2, p3: TPoint);
+Begin
+  points[0] := p1;  // Store first vertex
+  points[1] := p2;  // Store second vertex
+  points[2] := p3;  // Store third vertex
+End;
+
+// TTriangle constructor: Takes 6 integers (x1, y1, x2, y2, x3, y3)
+Constructor TTriangle.Create(x1, y1, x2, y2, x3, y3: Integer);
+Begin
+  points[0] := Point(x1, y1);  // Store first vertex
+  points[1] := Point(x2, y2);  // Store second vertex
+  points[2] := Point(x3, y3);  // Store third vertex
+End;
+
+// TTriangle method to draw the triangle
+procedure TTriangle.Draw(Canvas: TCanvas);
+Begin
+  With Canvas do
+  Begin
+    Pen.Width := 2;        // Set pen width to 2
+    Pen.Color := clBlue;   // Set pen color to blue
+    Polygon(points);  // Draw the triangle using the Polygon method
+  End;
+End;
+
+// FormPaint event handler
+procedure TForm1.FormPaint(Sender: TObject);
+var
+  rect1, rect2: TRectang;  // Declare two objects of our TRectang class
+  triangle1, triangle2: TTriangle;  // Declare two objects of our TTriangle class
+  point1, point2: TPoint;  // Declare two objects of the standard TPoint class
+Begin
+  // Clear the Image1 canvas before drawing
+  Image1.Canvas.Brush.Color := clWhite;  // Set background color to white
+  Image1.Canvas.FillRect(Rect(0, 0, Image1.Width, Image1.Height));  // Fill the canvas with white
+
+  // Define points for the rectangles (adjusted to fit within Image1)
+  point1 := Point(20, 20);  // Top-left corner of the green rectangle
+  point2 := Point(80, 80);  // Bottom-right corner of the green rectangle
+
+  // Create TRectang objects using both constructors
+  rect1 := TRectang.Create(10, 10, 50, 50);  // First rectangle (red)
+  rect2 := TRectang.Create(point1, point2);  // Second rectangle (green)
+
+  // Create TTriangle objects using both constructors
+  triangle1 := TTriangle.Create(Point(100, 100), Point(150, 100), Point(125, 150));  // First triangle (3 TPoint)
+  triangle2 := TTriangle.Create(200, 200, 250, 200, 225, 250);  // Second triangle (6 integers)
+
+  // Draw the rectangles on Image1.Canvas
+  With Image1.Canvas do
+  Begin
+    // Draw the first rectangle (red)
+    Pen.Width := 3;        // Set pen width to 3
+    Pen.Color := clRed;    // Set pen color to red
+    Rectangle(rect1.coord[0], rect1.coord[1], rect1.coord[2], rect1.coord[3]);
+
+    // Draw the second rectangle (green)
+    Pen.Width := 4;        // Set pen width to 4
+    Pen.Color := clGreen;  // Set pen color to green
+    Rectangle(rect2.coord[0], rect2.coord[1], rect2.coord[2], rect2.coord[3]);
+  End;
+
+  // Draw the triangles
+  triangle1.Draw(Image1.Canvas);  // Draw the first triangle
+  triangle2.Draw(Image1.Canvas);  // Draw the second triangle
+End;
+
+end.

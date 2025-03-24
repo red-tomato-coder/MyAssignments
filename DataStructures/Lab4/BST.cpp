@@ -11,6 +11,8 @@ int main() {
             << "2. Видалити вузол BST\n"
             << "3. Переглянути наслідувача/предка вузла\n"
             << "4. Перегляд дерева\n"
+            << "5. Обхід\n"
+            << "6. Згенерувати дерево\n"
             << "Введіть ваш вибір: ";
         std::cin >> choice;
 
@@ -79,6 +81,21 @@ int main() {
                 PrintTree(root);
                 break;
             }
+            case 5:{
+                std::cout << "PreOrder: ";
+                PreOrder(root);
+                std::cout << std::endl;
+                std::cout << "PostOrder: ";
+                PostOrder(root);
+                std::cout << std::endl;
+                std::cout << "InOrder: ";
+                InOrder(root);
+                std::cout << std::endl;
+                break;
+            }
+            case 6:
+                Recursive(root);
+                break;
             default: {
                 std::cout << "Невірний вибір. Спробуйте ще раз.\n";
                 break;

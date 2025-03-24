@@ -10,7 +10,8 @@ int main() {
                   << "2. Показати дерево\n"
                   << "3. Pre-order\n"
                   << "4. Post-order\n"
-                  << "5. In-order\n";
+                  << "5. In-order\n"
+                  << "6. Згенерувати дерево\n";
         std::cin >> choice;
 
         switch (choice) {
@@ -52,7 +53,9 @@ int main() {
                 InOrder(root);
                 std::cout << std::endl;
                 break;
-
+            case 6:
+                Recursive(root);
+                break;
             default:
                 std::cout << "Щось пішло не так\n";
                 break;

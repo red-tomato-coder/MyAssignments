@@ -3,6 +3,9 @@
 #include <vector>
 #include <queue>
 #include <iostream>
+#include <cmath>
+#include <algorithm>
+#include <sstream>
 
 Node* CreateTree(int key, int left, int right) {
     Node* root = new Node(key);
@@ -11,38 +14,76 @@ Node* CreateTree(int key, int left, int right) {
     return root;
 }
 
+int treeHeight(Node* root) {
+    if (!root) return 0;
+    return std::max(treeHeight(root->left), treeHeight(root->right)) + 1;
+}
+
+void printSpaces(int count) {
+    for (int i = 0; i < count; ++i)
+        std::cout << " ";
+}
+
 void PrintTree(Node* root) {
     if (root == nullptr) {
-        std::cout << "Дерево пусте" << std::endl;
+      std::cout << "Дерево пусте" << std::endl;
         return;
     }
-
-    std::queue<Node*> q;
-    q.push(root);
-    std::cout << "==============\n";
-    while (!q.empty()) {
-        int levelSize = q.size();
-        std::vector<int> currentLevel;
-
-        for (int i = 0; i < levelSize; ++i) {
-            Node* currentNode = q.front();
-            q.pop();
-            currentLevel.push_back(currentNode->key);
-
-            if (currentNode->left) {
-                q.push(currentNode->left);
+    
+    int maxLevel = treeHeight(root);
+    std::vector<Node*> nodes;
+    nodes.push_back(root);
+    int level = 1;
+    
+    while (level <= maxLevel) {
+        int floor = maxLevel - level;
+        int edgeLines = (int)pow(2, std::max(floor - 1, 0));
+        int firstSpaces = (int)pow(2, floor) - 1;
+        int betweenSpaces = (int)pow(2, floor + 1) - 1;
+        
+        printSpaces(firstSpaces);
+        std::vector<Node*> newNodes;
+        for (int i = 0; i < nodes.size(); i++) {
+            if (nodes[i] == nullptr) {
+                std::cout << " ";
+                newNodes.push_back(nullptr);
+                newNodes.push_back(nullptr);
+            } else {
+                std::cout << nodes[i]->key;
+                newNodes.push_back(nodes[i]->left);
+                newNodes.push_back(nodes[i]->right);
             }
-            if (currentNode->right) {
-                q.push(currentNode->right);
+            printSpaces(betweenSpaces);
+        }
+        std::cout << "\n";
+        
+        for (int i = 1; i <= edgeLines; i++) {
+            for (int j = 0; j < nodes.size(); j++) {
+                printSpaces(firstSpaces - i);
+                if (nodes[j] == nullptr) {
+                    printSpaces(edgeLines * 2 + i + 1);
+                    continue;
+                }
+                if (nodes[j]->left != nullptr)
+                    std::cout << "/";
+                else
+                    std::cout << " ";
+                
+                printSpaces(i * 2 - 1);
+                
+                if (nodes[j]->right != nullptr)
+                    std::cout << "\\";
+                else
+                    std::cout << " ";
+                
+                printSpaces(edgeLines * 2 - i);
             }
+            std::cout << "\n";
         }
-
-        for (int key : currentLevel) {
-            std::cout << key << " ";
-        }
-        std::cout << std::endl;
+        
+        nodes = newNodes;
+        level++;
     }
-    std::cout << "==============\n";
 }
 
 void CreateNode(Node* root, int ParentKey) {
@@ -199,6 +240,7 @@ Node* SearchNodeBST(Node* root, int SearchedKey) {
 }
 
 void DeleteNodeBST(Node*& root, Node* delNode) {
+  if(root != nullptr){
     if (delNode == nullptr) {
         std::cout << "Вузол для видалення не знайдено\n" << std::endl;
         return;
@@ -239,6 +281,10 @@ void DeleteNodeBST(Node*& root, Node* delNode) {
         DeleteNodeBST(root, successor); // Рекурсивно видаляється
     }
     PrintTree(root);
+  }
+  else{
+    std::cout << "Дерева не існує";
+  }
 }
 
 
@@ -278,4 +324,19 @@ Node* PredecessorNodeBST(Node* node){
         parent = parent->parent;
     }
     return parent;
+}
+
+void Recursive(Node*& root){
+  if(root == nullptr){
+      root = new Node(1);
+      root->left = new Node(2);
+      root->right = new Node(3);
+      root->left->left = new Node(4);
+      root->left->right = new Node(5);
+      root->right->left = new Node(6);
+      root->right->right = new Node(7);
+      return;
+  }
+  std::cout << "Дерево вже існує";
+  return;
 }
