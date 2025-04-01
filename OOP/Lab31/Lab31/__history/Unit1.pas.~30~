@@ -1,0 +1,204 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls;
+
+type
+  TForm1 = class(TForm)
+    Image1: TImage;
+    procedure FormPaint(Sender: TObject);
+    procedure Image1MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+  private
+    { Private declarations }
+    Triangles: TList;
+    procedure RedrawCanvas;
+  public
+    { Public declarations }
+  end;
+
+  TRectang = class
+  private
+    coord: Array [0..3] of Integer;
+  public
+    Constructor Create(left, top, right, bottom: Integer); Overload;
+    Constructor Create(topLeft, bottomRight: TPoint); Overload;
+    procedure Draw(Canvas: TCanvas);
+  end;
+
+  TTriangle = class
+  private
+    points: Array [0..2] of TPoint;
+  public
+    Constructor Create(p1, p2, p3: TPoint); Overload;
+    Constructor Create(x1, y1, x2, y2, x3, y3: Integer); Overload;
+    procedure Draw(Canvas: TCanvas);
+  end;
+
+  TLine = class
+  private
+    startPoint: TPoint;
+    endPoint: TPoint;
+  public
+    Constructor Create(start, finish: TPoint); Overload;
+    Constructor Create(x1, y1, x2, y2: Integer); Overload;
+    procedure Draw(Canvas: TCanvas);
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+{$R *.dfm}
+
+Constructor TRectang.Create(left, top, right, bottom: Integer);
+Begin
+  coord[0] := left;
+  coord[1] := top;
+  coord[2] := right;
+  coord[3] := bottom;
+End;
+
+Constructor TRectang.Create(topLeft, bottomRight: TPoint);
+Begin
+  coord[0] := topLeft.X;
+  coord[1] := topLeft.Y;
+  coord[2] := bottomRight.X;
+  coord[3] := bottomRight.Y;
+End;
+
+procedure TRectang.Draw(Canvas: TCanvas);
+Begin
+  Canvas.Rectangle(coord[0], coord[1], coord[2], coord[3]);
+End;
+
+Constructor TTriangle.Create(p1, p2, p3: TPoint);
+Begin
+  points[0] := p1;
+  points[1] := p2;
+  points[2] := p3;
+End;
+
+Constructor TTriangle.Create(x1, y1, x2, y2, x3, y3: Integer);
+Begin
+  points[0] := Point(x1, y1);
+  points[1] := Point(x2, y2);
+  points[2] := Point(x3, y3);
+End;
+
+procedure TTriangle.Draw(Canvas: TCanvas);
+Begin
+  Canvas.Polygon(points);
+End;
+
+Constructor TLine.Create(start, finish: TPoint);
+Begin
+  startPoint := start;
+  endPoint := finish;
+End;
+
+Constructor TLine.Create(x1, y1, x2, y2: Integer);
+Begin
+  startPoint := Point(x1, y1);
+  endPoint := Point(x2, y2);
+End;
+
+procedure TLine.Draw(Canvas: TCanvas);
+Begin
+  Canvas.MoveTo(startPoint.X, startPoint.Y);
+  Canvas.LineTo(endPoint.X, endPoint.Y);
+End;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  Triangles := TList.Create;
+end;
+
+procedure TForm1.FormDestroy(Sender: TObject);
+var
+  i: Integer;
+begin
+  // Free all triangle objects
+  for i := 0 to Triangles.Count - 1 do
+    TTriangle(Triangles[i]).Free;
+  Triangles.Free;
+end;
+
+procedure TForm1.RedrawCanvas;
+var
+  i: Integer;
+  rect1, rect2: TRectang;
+  line1, line2: TLine;
+begin
+  // Clear the canvas
+  Image1.Canvas.Brush.Color := clWhite;
+  Image1.Canvas.FillRect(Rect(0, 0, Image1.Width, Image1.Height));
+
+  // Draw the fixed elements
+  rect1 := TRectang.Create(10, 10, 50, 50);
+  rect2 := TRectang.Create(Point(60, 60), Point(110, 110));
+  line1 := TLine.Create(10, 120, 45, 120);
+  line2 := TLine.Create(Point(120, 10), Point(60, 90));
+
+  with Image1.Canvas do
+  begin
+    Pen.Width := 3;
+    Pen.Color := clRed;
+    rect1.Draw(Image1.Canvas);
+    line1.Draw(Image1.Canvas);
+
+    Pen.Width := 4;
+    Pen.Color := clGreen;
+    rect2.Draw(Image1.Canvas);
+    line2.Draw(Image1.Canvas);
+
+    // Draw all triangles
+    Pen.Width := 2;
+    Pen.Color := clBlue;
+    for i := 0 to Triangles.Count - 1 do
+      TTriangle(Triangles[i]).Draw(Image1.Canvas);
+  end;
+
+  // Free temporary objects
+  rect1.Free;
+  rect2.Free;
+  line1.Free;
+  line2.Free;
+end;
+
+procedure TForm1.FormPaint(Sender: TObject);
+begin
+  RedrawCanvas;
+end;
+
+procedure TForm1.Image1MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+var
+  NewTriangle: TTriangle;
+  Size: Integer;
+begin
+  if Button = mbLeft then
+  begin
+    Size := 30; // Size of the triangle
+
+    // Create a new triangle centered at the click point
+    NewTriangle := TTriangle.Create(
+      X, Y - Size div 2,       // Top point
+      X - Size div 2, Y + Size div 2, // Bottom left
+      X + Size div 2, Y + Size div 2  // Bottom right
+    );
+
+    // Add to the list
+    Triangles.Add(NewTriangle);
+
+    // Redraw the canvas
+    RedrawCanvas;
+  end;
+end;
+
+end.

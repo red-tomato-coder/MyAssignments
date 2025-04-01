@@ -1,0 +1,146 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls;
+
+type
+  TForm1 = class(TForm)
+    Image1: TImage;
+    procedure FormPaint(Sender: TObject);
+  end;
+
+  TRectang = class
+  private
+    coord: Array [0..3] of Integer;
+  public
+    Constructor Create(left, top, right, bottom: Integer); Overload;
+    Constructor Create(topLeft, bottomRight: TPoint); Overload;
+    procedure Draw(Canvas: TCanvas);
+  end;
+
+  TTriangle = class
+  private
+    points: Array [0..2] of TPoint;
+  public
+    Constructor Create(p1, p2, p3: TPoint); Overload;
+    Constructor Create(x1, y1, x2, y2, x3, y3: Integer); Overload;
+    procedure Draw(Canvas: TCanvas);
+  end;
+
+  TLine = class
+  private
+    startPoint: TPoint;
+    endPoint: TPoint;
+  public
+    Constructor Create(start, finish: TPoint); Overload;
+    Constructor Create(x1, y1, x2, y2: Integer); Overload;
+    procedure Draw(Canvas: TCanvas);
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+{$R *.dfm}
+
+Constructor TRectang.Create(left, top, right, bottom: Integer);
+Begin
+  coord[0] := left;
+  coord[1] := top;
+  coord[2] := right;
+  coord[3] := bottom;
+End;
+
+Constructor TRectang.Create(topLeft, bottomRight: TPoint);
+Begin
+  coord[0] := topLeft.X;
+  coord[1] := topLeft.Y;
+  coord[2] := bottomRight.X;
+  coord[3] := bottomRight.Y;
+End;
+
+procedure TRectang.Draw(Canvas: TCanvas);
+Begin
+  Canvas.Rectangle(coord[0], coord[1], coord[2], coord[3]);
+End;
+
+Constructor TTriangle.Create(p1, p2, p3: TPoint);
+Begin
+  points[0] := p1;
+  points[1] := p2;
+  points[2] := p3;
+End;
+
+Constructor TTriangle.Create(x1, y1, x2, y2, x3, y3: Integer);
+Begin
+  points[0] := Point(x1, y1);
+  points[1] := Point(x2, y2);
+  points[2] := Point(x3, y3);
+End;
+
+procedure TTriangle.Draw(Canvas: TCanvas);
+Begin
+  Canvas.Polygon(points);
+End;
+
+Constructor TLine.Create(start, finish: TPoint);
+Begin
+  startPoint := start;
+  endPoint := finish;
+End;
+
+Constructor TLine.Create(x1, y1, x2, y2: Integer);
+Begin
+  startPoint := Point(x1, y1);
+  endPoint := Point(x2, y2);
+End;
+
+procedure TLine.Draw(Canvas: TCanvas);
+Begin
+  Canvas.MoveTo(startPoint.X, startPoint.Y);
+  Canvas.LineTo(endPoint.X, endPoint.Y);
+End;
+
+procedure TLine.DrawOnClick();
+Begin
+
+End;
+
+procedure TForm1.FormPaint(Sender: TObject);
+var
+  rect1, rect2: TRectang;
+  triangle1, triangle2: TTriangle;
+  line1, line2: TLine;
+Begin
+  Image1.Canvas.Brush.Color := clWhite;
+  Image1.Canvas.FillRect(Rect(0, 0, Image1.Width, Image1.Height));
+
+  rect1 := TRectang.Create(10, 10, 50, 50);
+  rect2 := TRectang.Create(Point(60, 60), Point(110, 110));
+
+  triangle1 := TTriangle.Create(Point(100, 100), Point(150, 100), Point(125, 150));
+  triangle2 := TTriangle.Create(200, 200, 250, 200, 225, 250);
+
+  line1 := TLine.Create(10, 120, 45, 120);
+  line2 := TLine.Create(Point(120, 10), Point(60, 90));
+
+  With Image1.Canvas do
+  Begin
+    Pen.Width := 3;
+    Pen.Color := clRed;
+    rect1.Draw(Image1.Canvas);
+    triangle1.Draw(Image1.Canvas);
+    line1.Draw(Image1.Canvas);
+
+    Pen.Width := 4;
+    Pen.Color := clGreen;
+    rect2.Draw(Image1.Canvas);
+    triangle2.Draw(Image1.Canvas);
+    line2.Draw(Image1.Canvas);
+  End;
+End;
+
+end.

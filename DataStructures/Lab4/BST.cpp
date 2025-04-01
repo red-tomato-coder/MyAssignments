@@ -13,7 +13,7 @@ int main() {
             << "4. Перегляд дерева\n"
             << "5. Обхід\n"
             << "6. Згенерувати дерево\n"
-            << "Введіть ваш вибір: ";
+            << "Введіть ваш вибір: \n";
         std::cin >> choice;
 
         switch (choice) {
@@ -93,15 +93,17 @@ int main() {
                 std::cout << std::endl;
                 break;
             }
-            case 6:
-                Recursive(root);
-                break;
+            /*case 6:
+                int i, j;
+                std::cout << "Введіть кількість бажаних вузлів";
+                std::cin >> i;               
+                RecursiveBST(root, i, j);
+                break;*/
             default: {
                 std::cout << "Невірний вибір. Спробуйте ще раз.\n";
                 break;
             }
         }
     }
-
     return 0;
 }

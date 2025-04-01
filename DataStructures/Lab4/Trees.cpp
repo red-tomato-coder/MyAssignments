@@ -29,7 +29,7 @@ void PrintTree(Node* root) {
       std::cout << "Дерево пусте" << std::endl;
         return;
     }
-    
+    std::cout<<"================\n";
     int maxLevel = treeHeight(root);
     std::vector<Node*> nodes;
     nodes.push_back(root);
@@ -84,6 +84,7 @@ void PrintTree(Node* root) {
         nodes = newNodes;
         level++;
     }
+    std::cout<<"================\n";
 }
 
 void CreateNode(Node* root, int ParentKey) {
@@ -239,16 +240,16 @@ Node* SearchNodeBST(Node* root, int SearchedKey) {
   return SearchNodeBST(root->right, SearchedKey);
 }
 
+
 void DeleteNodeBST(Node*& root, Node* delNode) {
-  if(root != nullptr){
     if (delNode == nullptr) {
-        std::cout << "Вузол для видалення не знайдено\n" << std::endl;
+        std::cout << "Вузол для видалення не знайдено\n";
         return;
     }
 
-    if (delNode->left == nullptr && delNode->right == nullptr) { //Якщо листок
-        if (delNode == root) {
-            delete root;
+    if (delNode->left == nullptr && delNode->right == nullptr) {
+        if (delNode->parent == nullptr) {
+            delete delNode;
             root = nullptr;
         } else {
             if (delNode->parent->left == delNode)
@@ -258,35 +259,25 @@ void DeleteNodeBST(Node*& root, Node* delNode) {
             delete delNode;
         }
     }
-
-    else if (delNode->left == nullptr || delNode->right == nullptr) { //якщо 1 гілка
+    else if (delNode->left == nullptr || delNode->right == nullptr) {
         Node* child = (delNode->left != nullptr) ? delNode->left : delNode->right;
-        if (delNode == root) {
+        child->parent = delNode->parent;
+        
+        if (delNode->parent == nullptr) {
             root = child;
-            child->parent = nullptr;
-            delete delNode;
+        } else if (delNode->parent->left == delNode) {
+            delNode->parent->left = child;
         } else {
-            if (delNode->parent->left == delNode)
-                delNode->parent->left = child;
-            else
-                delNode->parent->right = child;
-            child->parent = delNode->parent;
-            delete delNode;
+            delNode->parent->right = child;
         }
+        delete delNode;
     }
-
-    else {                                                    //Якщо 2 гілки
+    else {
         Node* successor = SuccessorNodeBST(delNode);
         delNode->key = successor->key;
-        DeleteNodeBST(root, successor); // Рекурсивно видаляється
+        DeleteNodeBST(root, successor);
     }
-    PrintTree(root);
-  }
-  else{
-    std::cout << "Дерева не існує";
-  }
 }
-
 
 Node* SuccessorNodeBST(Node* node) {
     if (node == nullptr) return nullptr;
@@ -307,10 +298,10 @@ Node* SuccessorNodeBST(Node* node) {
     return parent;
 }
 
-Node* PredecessorNodeBST(Node* node){
-  if (node == nullptr) return nullptr;
+Node* PredecessorNodeBST(Node* node) {
+    if (node == nullptr) return nullptr;
 
-    if (node->right != nullptr) {
+    if (node->left != nullptr) {
         Node* current = node->left;
         while (current->right != nullptr) {
             current = current->right;
@@ -326,17 +317,14 @@ Node* PredecessorNodeBST(Node* node){
     return parent;
 }
 
-void Recursive(Node*& root){
-  if(root == nullptr){
-      root = new Node(1);
-      root->left = new Node(2);
-      root->right = new Node(3);
-      root->left->left = new Node(4);
-      root->left->right = new Node(5);
-      root->right->left = new Node(6);
-      root->right->right = new Node(7);
-      return;
+
+void Recursive(Node*& root, int i, int j){
+  if(i == 0)
+    return;
+  if(i>=j){
+    root = new Node(j);
+    Recursive(root -> left, i, j*2);
+    Recursive(root -> right, i, j*2+1);
   }
-  std::cout << "Дерево вже існує";
   return;
 }

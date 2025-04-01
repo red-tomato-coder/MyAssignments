@@ -54,7 +54,10 @@ int main() {
                 std::cout << std::endl;
                 break;
             case 6:
-                Recursive(root);
+                int i;
+                std::cout << "Введіть кількість бажаних вузлів";
+                std::cin >> i;
+                Recursive(root, i, 1);
                 break;
             default:
                 std::cout << "Щось пішло не так\n";

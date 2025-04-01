@@ -28,6 +28,7 @@ void DeleteNodeBST(Node*& root, Node* delNode);
 Node* SuccessorNodeBST(Node* node);
 Node* PredecessorNodeBST(Node* node);
 void PrintTree(Node* root);
-void Recursive(Node*& root);
+void Recursive(Node*& root, int i, int j);
+void RecursiveBST(Node*& root, int i, int& j);
 
 #endif // TREES_H
