@@ -1,0 +1,111 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    Label1: TLabel;
+    Button1: TButton;
+    Button2: TButton;
+    Button3: TButton;
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+  TField = class
+    function GetData: String; virtual; abstract;
+  end;
+
+  TStringField = class(TField)
+    Data: String;
+    function GetData: String; override;
+  end;
+
+  TIntegerField = class(TField)
+    Data: Integer;
+    function GetData: String; override;
+  end;
+
+  TExtendedField = class(TField)
+    Data: Extended;
+    function GetData: String; override;
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+function TStringField.GetData: String;
+begin
+  Result := Data;
+end;
+
+function TIntegerField.GetData: String;
+begin
+  Result := IntToStr(Data);
+end;
+
+function TExtendedField.GetData: String;
+begin
+  Result := FloatToStrF(Data, ffFixed, 7, 2);
+end;
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  OS: TStringField;
+  S: String;
+begin
+  OS := TStringField.Create;
+  try
+    OS.Data := 'Gorbino`s s Quest ^_^!'; // Set string data
+    S := OS.GetData; // Get data as string
+    Label1.Caption := S; // Update label caption
+  finally
+    OS.Free; // Free the object
+  end;
+end;
+
+// Event handler for Button2 (TIntegerField)
+procedure TForm1.Button2Click(Sender: TObject);
+var
+  OI: TIntegerField;
+  S: String;
+begin
+  OI := TIntegerField.Create;
+  try
+    OI.Data := 12345; // Set integer data
+    S := OI.GetData; // Get data as string
+    Label1.Caption := S; // Update label caption
+  finally
+    OI.Free; // Free the object
+  end;
+end;
+
+// Event handler for Button3 (TExtendedField)
+procedure TForm1.Button3Click(Sender: TObject);
+var
+  OE: TExtendedField;
+  S: String;
+begin
+  OE := TExtendedField.Create;
+  try
+    OE.Data := 12.345;
+    S := OE.GetData;
+    Label1.Caption := S;
+  finally
+    OE.Free;
+  end;
+end;
+end.

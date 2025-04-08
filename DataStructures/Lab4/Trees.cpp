@@ -164,10 +164,10 @@ void PreOrder(Node* root) {
 }
 
 /*
- _____________________________________________________________
-/                                                              \
-|===========================ЧАСТИНА 2==========================|
-\______________________________________________________________/
+ _______________________________________________________________
+/                                                               \
+|===========================ЧАСТИНА 2===========================|
+\_______________________________________________________________/
 
 */
 
@@ -247,7 +247,7 @@ void DeleteNodeBST(Node*& root, Node* delNode) {
         return;
     }
 
-    if (delNode->left == nullptr && delNode->right == nullptr) {
+    if (delNode->left == nullptr && delNode->right == nullptr) { //Якщо листок
         if (delNode->parent == nullptr) {
             delete delNode;
             root = nullptr;
@@ -259,24 +259,38 @@ void DeleteNodeBST(Node*& root, Node* delNode) {
             delete delNode;
         }
     }
-    else if (delNode->left == nullptr || delNode->right == nullptr) {
+    else if (delNode->left == nullptr || delNode->right == nullptr) { //Якщо один нащадок
         Node* child = (delNode->left != nullptr) ? delNode->left : delNode->right;
         child->parent = delNode->parent;
         
         if (delNode->parent == nullptr) {
             root = child;
-        } else if (delNode->parent->left == delNode) {
+        } 
+        else if (delNode->parent->left == delNode) {
             delNode->parent->left = child;
-        } else {
+        } 
+        else {
             delNode->parent->right = child;
         }
         delete delNode;
     }
-    else {
+    else {                                                          //якщо 2 нащадки
         Node* successor = SuccessorNodeBST(delNode);
-        delNode->key = successor->key;
-        DeleteNodeBST(root, successor);
+        Node* predecessor = PredecessorNodeBST(delNode);
+
+        if(delNode->key > delNode->parent->key){ //ТОБТО ПРАВИЙ
+          delNode->key = successor->key;
+          DeleteNodeBST(root, successor);
+        }
+        if(delNode->key < delNode->parent->key){//ЛІВИЙ
+          delNode->key = predecessor->key;
+          DeleteNodeBST(root, predecessor);
+        }
+        if(delNode->parent->key > delNode->parent->right->key || delNode->parent->key < delNode->parent->left->key){//надіюсь спрацює (на випадок якщо *ЩОСЬ* піде не так)
+          std::cout << "ПОПЕРЕДЖЕННЯ: СТРУКТУРА BST НЕДОТРИМАНА";
+        }
     }
+    PrintTree(root);
 }
 
 Node* SuccessorNodeBST(Node* node) {

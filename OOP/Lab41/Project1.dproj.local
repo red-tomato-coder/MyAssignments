@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2025/03/22 07:17:46.000.877,=C:\Users\ARCHLINUX\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2025/03/23 12:14:11.000.600,=C:\Users\ARCHLINUX\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2025/03/23 12:34:47.000.402,C:\Users\ARCHLINUX\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\ARCHLINUX\Documents\Lab41\Project1.pas</Transaction>
+    <Transaction>2025/03/23 12:34:47.000.402,C:\Users\ARCHLINUX\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\ARCHLINUX\Documents\Lab41\Project1.dfm</Transaction>
+    <Transaction>2025/03/23 12:39:04.000.715,C:\Users\ARCHLINUX\Documents\Lab41\Project1.pas=C:\Users\ARCHLINUX\Documents\Lab41\Unit1.pas</Transaction>
+    <Transaction>2025/03/23 12:39:04.000.715,C:\Users\ARCHLINUX\Documents\Lab41\Project1.dfm=C:\Users\ARCHLINUX\Documents\Lab41\Unit1.dfm</Transaction>
+    <Transaction>2025/03/23 12:48:45.000.836,C:\Users\ARCHLINUX\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\ARCHLINUX\Documents\Lab41\Project1.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

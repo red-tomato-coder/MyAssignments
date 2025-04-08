@@ -9,15 +9,15 @@ void printArray(const std::vector<int>& arr) {
 
 int main() {
     std::vector<int> arr = {4, 10, 3, 5, 1};
-    std::cout << "Original array: ";
+    std::cout << "Оригінальний масив: ";
     printArray(arr);
 
     HeapSort(arr, true);
-    std::cout << "Sorted array (ascending): ";
+    std::cout << "Відсортований масив (MaxHeap): ";
     printArray(arr);
 
     HeapSort(arr, false);
-    std::cout << "Sorted array (descending): ";
+    std::cout << "Відсортований масив (MinHeap): ";
     printArray(arr);
 
     return 0;

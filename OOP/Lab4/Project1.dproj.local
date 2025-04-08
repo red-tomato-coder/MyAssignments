@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2025/03/15 15:33:48.000.589,=D:\Unit1.pas</Transaction>
+    <Transaction>2025/03/15 15:34:02.000.795,D:\Sphere.pas=D:\Unit1.pas</Transaction>
+    <Transaction>2025/03/15 15:34:05.000.998,=D:\Unit1.pas</Transaction>
+    <Transaction>2025/03/15 15:34:16.000.316,D:\BallU.pas=D:\Unit1.pas</Transaction>
+    <Transaction>2025/03/15 15:34:22.000.201,D:\SphereU.pas=D:\Sphere.pas</Transaction>
+    <Transaction>2025/03/15 15:34:30.000.068,=D:\Unit1.pas</Transaction>
+    <Transaction>2025/03/15 15:34:43.000.687,D:\PointU.pas=D:\Unit1.pas</Transaction>
+    <Transaction>2025/03/15 15:35:08.000.246,=D:\Unit1.pas</Transaction>
+    <Transaction>2025/03/15 15:35:19.000.363,D:\SichU.pas=D:\Unit1.pas</Transaction>
+    <Transaction>2025/03/15 15:44:34.000.794,D:\Lab4_0\PointU.pas=D:\PointU.pas</Transaction>
+    <Transaction>2025/03/15 15:44:46.000.099,D:\Lab4_0\Project1.dproj=D:\Project1.dproj</Transaction>
+  </Transactions>
+</BorlandProject>
