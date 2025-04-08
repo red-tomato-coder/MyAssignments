@@ -1,1 +1,0 @@
-/home/anton/MyAssignments/DataStructures/Lab01/target/debug/Lab_01_СортуванняЗлиттям: /home/anton/MyAssignments/DataStructures/Lab01/src/main.rs /home/anton/MyAssignments/DataStructures/sorting-lib/src/lib.rs
