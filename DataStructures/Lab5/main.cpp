@@ -8,7 +8,7 @@ void printArray(const std::vector<int>& arr) {
 }
 
 int main() {
-    std::vector<int> arr = {4, 10, 3, 5, 1};
+    std::vector<int> arr = {4,1,3,2,16,9,10,14,8,7};
     std::cout << "Оригінальний масив: ";
     printArray(arr);
 
